@@ -21,3 +21,21 @@ a {
   padding-top: 25px;
   border-top: 1px solid #000;
 }
+
+#posts{
+	list-style: none;
+}
+
+#posts li{
+	padding: 15px 0px;
+	border-bottom: 1px solid black;
+}
+
+#nextPage{
+	float: right;
+	padding-bottom: 50px;
+}
+
+.postDetail h5, .postDetail h6{
+	font-weight: normal;
+}

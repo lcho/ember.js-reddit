@@ -20,8 +20,8 @@
 			</div>
 		</div>
 
-		<div class="row">
-            <div class="twelve columns">
+		<div>
+            <div >
             	{{outlet}}
             </div>
         </div>
@@ -29,20 +29,25 @@
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="index">
-        hello, ember
+        {{render "posts"}}
     </script>
 
 	<script type="text/x-handlebars" data-template-name="posts">
-		<ul id="menu">
+		<ul id="posts">
             {{#each post in controller}}
             <li>
                 {{#linkTo "post" post }} {{post.title}} {{/linkTo}}
             </li>
             {{/each}}
         </ul>
+        <a id="nextPage" href="#">next > </a>
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="post">
+		<div class="postDetail">
+			<h5>{{title}}</h5>
+			<h6>posted by <strong>{{author}}</strong> in <strong>{{subreddit}}</strong> about <strong>{{date publishedAt}}</strong></h6>
+		</div>
 	</script>
 
 

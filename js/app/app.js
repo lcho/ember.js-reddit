@@ -2,9 +2,8 @@ App = Ember.Application.create();
 
 //start routes.js
 App.Router.map(function(){
-	this.resource('posts', function(){
-		this.resource('post', { path: ':post_id'});
-	});
+	this.resource('posts');
+	this.resource('post', { path: '/post/:post_id'});
 });
 
 App.PostsRoute = Ember.Route.extend({//find all the posts
@@ -42,6 +41,7 @@ App.Post = DS.Model.extend({
 //load dem objects through jquer stuffs
 $.getJSON("http://www.reddit.com/.json?jsonp=?").then(function(response) {
             var links = Em.A();
+            var i = 0;
             response.data.children.forEach(function (child) {
             	var subreddit = child.data.subreddit;
             	var pid = child.data.id;
@@ -50,14 +50,13 @@ $.getJSON("http://www.reddit.com/.json?jsonp=?").then(function(response) {
             	var author = child.data.author;
             	var epocheposted = child.data.created_utc;
             	var title = child.data.title;
-
             	//post object
             	//title -- string
             	//pid -- string
             	//subreddit -- string
             	//score -- number
 
-            	App.Post.createRecord({pid: pid, title: title,  subreddit: subreddit, score: score, url: url, author: author, publishedAt: epocheposted});
+            	App.Post.createRecord({id: i, pid: pid, title: title,  subreddit: subreddit, score: score, url: url, author: author, publishedAt: epocheposted});
             });
 });
 
@@ -87,5 +86,9 @@ App.Post.FIXTURES = [{
 
 //start controllers.js
 App.PostsController = Ember.ArrayController.extend();
-App.PostController = Ember.ObjectController();
+App.PostController = Ember.ObjectController.extend();
 //end controllers.js
+
+Ember.Handlebars.registerBoundHelper('date', function(date){
+	return moment.unix(date).fromNow();
+});
