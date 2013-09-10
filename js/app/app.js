@@ -31,13 +31,38 @@ App.Store = DS.Store.extend({
 //models
 App.Post = DS.Model.extend({
 	id: DS.attr('number'),
+	pid: DS.attr('string'),
 	title: DS.attr('string'),
-	extended: DS.attr('string'),
+	subreddit: DS.attr('string'),
+	url: DS.attr('string'),
 	author: DS.attr('string'),
-	publishedAt: DS.attr('date')
+	publishedAt: DS.attr('number')
+});
+
+//load dem objects through jquer stuffs
+$.getJSON("http://www.reddit.com/.json?jsonp=?").then(function(response) {
+            var links = Em.A();
+            response.data.children.forEach(function (child) {
+            	var subreddit = child.data.subreddit;
+            	var pid = child.data.id;
+            	var score = child.data.score;
+            	var url = child.data.url;
+            	var author = child.data.author;
+            	var epocheposted = child.data.created_utc;
+            	var title = child.data.title;
+
+            	//post object
+            	//title -- string
+            	//pid -- string
+            	//subreddit -- string
+            	//score -- number
+
+            	App.Post.createRecord({pid: pid, title: title,  subreddit: subreddit, score: score, url: url, author: author, publishedAt: epocheposted});
+            });
 });
 
 //fixtures
+/*
 App.Post.FIXTURES = [{
 	id: 1,
 	title: 'text post',
@@ -57,6 +82,7 @@ App.Post.FIXTURES = [{
 	author: 'brandon',
 	publishedAt: new Date('1/3/2013')
 }];
+*/
 //end models.js
 
 //start controllers.js
